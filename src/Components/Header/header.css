@@ -1,0 +1,41 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    margin: 0.3em;
+    padding: 0.3em;
+    height: 3.5em;
+}
+
+header input,
+header select {}
+
+.field-aria {
+    position: relative;
+}
+
+/* These buttons below refer to the search trigger as well as the clear inputs action  */
+.filterActions {
+    width: 1.4em;
+    height: 1.4em;
+    background-color: black;
+    font-size: 20px;
+}
+
+.filterActions i {
+    color: cornflowerblue;
+}
+
+/* The warning message  */
+.warn-aria {
+    position: absolute;
+    top: 45px;
+}
+
+.warn-aria i,
+.warn-aria span {
+    color: red;
+}
+
+#searchField {
+    width: 30em;
+}
