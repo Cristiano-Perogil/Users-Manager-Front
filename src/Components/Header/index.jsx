@@ -16,32 +16,33 @@ function Header() {
             setIsTypeNum(true) : setIsTypeNum(false);
     }
 
-
     function validateFields() {
         if (searchField == '' && filtersOption == '') {
-            setNoFilters(true);
-            setEmptySearch(true);
+            updateState(setNoFilters, true);
+            updateState(setEmptySearch, true);
         } else if (filtersOption == '') {
-            setNoFilters(true);
+            updateState(setNoFilters, true);
+        } else if (searchField == '') {
+            updateState(setEmptySearch, true);
         }
     }
 
     function clearFields() {
         updateState(setFiltersOption, '');
         updateState(setSearchField, '');
+        updateState(setNoFilters, false);
+        updateState(setEmptySearch, false);
         filters.current.focus();
-
     }
 
     function updateState(state, value) {
         state(value);
     }
 
-
     return (
         <header aria-label="Heading">
             <div className="field-aria">
-                <select value={filtersOption} ref={filters} aria-label="select a filter" onChange={(e) => { handdleFilterSelection(); setFiltersOption(e.target.value); }}>
+                <select value={filtersOption} ref={filters} aria-label="select a filter" onChange={(e) => { handdleFilterSelection(); updateState(setFiltersOption, e.target.value); updateState(setNoFilters, false); }}>
                     <option value=''>___</option>
                     <option value='ID'>ID</option>
                     <option value='name'>Name</option>
@@ -61,7 +62,7 @@ function Header() {
                     placeholder="Search users according to the filters to the left"
                     aria-label="search user"
                     value={searchField}
-                    onChange={(e) => setSearchField(e.target.value)}
+                    onChange={(e) => { updateState(setSearchField, e.target.value); updateState(setEmptySearch, false); }}
                 />
                 {emptySearch && <div className="warn-aria" role="alert">
                     <i className='fas fa-exclamation-circle'></i>

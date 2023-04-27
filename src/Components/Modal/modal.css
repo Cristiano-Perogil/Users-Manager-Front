@@ -1,52 +1,81 @@
 .modal {
     display: none;
-    /* Hidden by default */
     position: fixed;
-    /* Stay in place */
     z-index: 1;
-    /* Sit on top */
     left: 0;
     top: 0;
     width: 100%;
-    /* Full width */
     height: 100%;
-    /* Full height */
     overflow: auto;
-    /* Enable scroll if needed */
     background-color: black;
-    /* Fallback color */
     background-color: rgba(0, 0, 0, 0.4);
-    /* Black w/ opacity */
-}
-
-.modal-content {
-    display: flex;
-    width: 40em;
-    height: 30em;
     animation-name: animatecenter;
     animation-duration: 0.4s
 }
 
+.modal-content {
+    display: flex;
+    flex-direction: column;
+    width: 30em;
+    height: 25em;
+    border: 3px solid #f3f3f3;
+    border-radius: 1%;
+    box-sizing: border-box;
+    animation-name: animatecenter;
+    animation-duration: 0.4s;
+}
+
 .modal--visible {
     display: flex;
-justify-content: center;
-align-items: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .modal-header {
     display: flex;
-    padding-left: 0.2em;
+    padding-left: 0.9em;
+    margin-bottom: 0.9em;
 }
 
-/* The animations  */
-@keyframes animatecenter {
-    from {
-        center: -300px;
-        opacity: 0
-    }
+#closeModal {
+    all: initial;
+    margin-left: auto;
+    margin-top: 0;
+    width: 30px;
+    height: 30px;
+    background-color: black;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+    border: 2px solid #f3f3f3;
+    font-size: 25px;
+    transition: font-size 1s;
+}
 
-    to {
-        center: 0;
-        opacity: 1
-    }
+#closeModal:hover,
+#closeModal:focus {
+    font-size: 30px;
+    font-weight: bold;
+
+}
+
+.modal-body {
+    padding: 1em;
+}
+
+.modal-footer {
+    display: flex;
+    margin-top: 0.3em;
+}
+
+#cancelBtn {
+    width: 50%;
+    color: grey;
+    border-radius: 2%;
+}
+
+#submitBtn {
+    width: 50%;
+    color: cornflowerblue;
+    border-radius: 2%;
 }

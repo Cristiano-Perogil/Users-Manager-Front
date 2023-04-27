@@ -29,6 +29,9 @@ header select {}
 .warn-aria {
     position: absolute;
     top: 45px;
+    animation-name: animatecenter;
+    animation-duration: 0.5s;
+
 }
 
 .warn-aria i,

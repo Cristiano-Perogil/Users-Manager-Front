@@ -3,22 +3,12 @@
 // Variable for storing the last focused element
 var lastFocusedElement;
 
-
 // Show Modal
-export function showModal() {
+export function keepTabIn(focusableElement=[]) {
     // Close all open modal windows
-    removeModal();
+    stopTrackTab();
     // Store the last focused element
     lastFocusedElement = document.activeElement;
-    // Select the modal window
-    var modal = document.getElementById("modal");
-    // Show the window
-    modal.classList.add("modal--visible");
-    // Find all focusable children
-    var focusableElementsString = 'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex="0"], [tabindex="-1"], [contenteditable]';
-    var focusableElements = modal.querySelectorAll(focusableElementsString);
-    // Convert NodeList to Array
-    focusableElements = Array.prototype.slice.call(focusableElements);
 
     // The first focusable element within the modal window
     var firstTabStop = focusableElements[0];
@@ -51,17 +41,13 @@ export function showModal() {
 
         // Close the window by pressing the Esc-key
         if (e.keyCode === 27) {
-            removeModal();
+            stopTrackTab();
         }
     });
 }
 
 // Remove the modal window if it's visible
-export function removeModal() {
-    var visibleClass = 'modal--visible';
-    if (document.querySelector('.' + visibleClass)) {
-        document.querySelector('.' + visibleClass).classList.remove(visibleClass);
-        // Return the focus to the last focused element
-        lastFocusedElement.focus();
-    }
+export function stopTrackTab() {
+    // Return the focus to the last focused element
+    lastFocusedElement.focus();
 }

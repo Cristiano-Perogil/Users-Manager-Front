@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
 
 * {
+  scroll-behavior: smooth;
   outline: 0;
   margin: 0;
   padding: 0;
@@ -37,6 +38,10 @@ select:focus {
   border: 1px solid cornflowerblue;
 }
 
+label {
+  margin: 0.3em;
+}
+
 button {
   background-color: cornflowerblue;
   width: 10%;
@@ -54,4 +59,65 @@ button:focus {
 
 i {
   margin-right: 0.3em;
+}
+
+
+/* The warning message  */
+.warn-aria {
+  position: absolute;
+  top: 45px;
+  animation-name: animatecenter;
+  animation-duration: 0.5s;
+}
+
+
+.warn-aria-form {
+  margin: 0.3em;
+}
+
+.warn-aria i,
+.warn-aria span,
+.warn-aria-form i,
+.warn-aria-form span {
+  color: red;
+}
+
+/* The animations  */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes animatecenter {
+  from {
+    center: -300px;
+    opacity: 0
+  }
+
+  to {
+    center: 0;
+    opacity: 1
+  }
+}
+
+@keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0
+  }
+
+  to {
+    top: 0;
+  }
+}
+
+/* Breaking lines */
+.break {
+  flex-basis: 100%;
+  height: 0;
 }
