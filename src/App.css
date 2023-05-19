@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 * {
   scroll-behavior: smooth;
@@ -24,6 +25,48 @@ body {
   border: 1px solid white;
 }
 
+/* The header section */
+header {
+    display: flex;
+    justify-content: space-between;
+    margin: 0.3em;
+    padding: 0.3em;
+    height: 3.5em;
+}
+
+.field-aria {
+    position: relative;
+}
+
+/* These buttons below refer to the search trigger as well as the clear inputs action  */
+.filterActions {
+    width: 1.4em;
+    height: 1.4em;
+    background-color: black;
+    font-size: 20px;
+}
+
+.filterActions i {
+    color: cornflowerblue;
+}
+
+/* The warning message  */
+.warn-aria {
+    position: absolute;
+    top: 45px;
+    animation-name: animatecenter;
+    animation-duration: 0.5s;
+}
+
+.warn-aria i,
+.warn-aria span {
+    color: red;
+}
+
+#searchField {
+    width: 30em;
+}
+
 input,
 select {
   margin: 0.3em;
@@ -39,7 +82,7 @@ select:focus {
 }
 
 label {
-  margin: 0.3em;
+  margin: 0.5em;
 }
 
 button {
@@ -121,3 +164,4 @@ i {
   flex-basis: 100%;
   height: 0;
 }
+

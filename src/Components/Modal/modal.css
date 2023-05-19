@@ -33,8 +33,12 @@
 
 .modal-header {
     display: flex;
-    padding-left: 0.9em;
-    margin-bottom: 0.9em;
+
+    margin-bottom: 0.3em;
+}
+
+.modal-header h2 {
+    margin: 0.3em 0 0 0.6em;
 }
 
 #closeModal {
@@ -54,9 +58,8 @@
 
 #closeModal:hover,
 #closeModal:focus {
-    font-size: 30px;
+    font-size: 28px;
     font-weight: bold;
-
 }
 
 .modal-body {
@@ -65,17 +68,22 @@
 
 .modal-footer {
     display: flex;
-    margin-top: 0.3em;
+    margin-top: auto;
 }
 
-#cancelBtn {
+.cancelBtn {
     width: 50%;
-    color: grey;
+    height: 100%;
+    margin: 0;
+    background-color: #5b5b5b;
     border-radius: 2%;
 }
 
-#submitBtn {
+.submitBtn {
     width: 50%;
-    color: cornflowerblue;
+    height: 100%;
+    margin: 0;
+    background-color: cornflowerblue;
     border-radius: 2%;
 }
+

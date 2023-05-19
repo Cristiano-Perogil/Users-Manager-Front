@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState } from "react";
 
 function Input(props) {
@@ -28,3 +29,6 @@ function Input(props) {
 }
 
 export default Input
+=======
+export { default } from "./Input";
+>>>>>>> fix.inputFocus
