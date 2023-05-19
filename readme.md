@@ -10,6 +10,7 @@ Running it is as simple as it is supposed to be, you just need to clone it, inst
 
 1. React
 2. React-Redux
+3. Fontawesome
 3. Vite
 
 ### OBS
