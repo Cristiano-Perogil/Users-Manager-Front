@@ -1,14 +1,24 @@
-import { handleChange } from '../../../Helpers';
+import { memo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setFieldValue } from '../../Store/actions';
 import './input.css';
 
 function Input(props) {
-    const { label, type, name, value, placeholder, isInvalid, state } = props;
+    const { label, type, name, placeholder, isInvalid } = props;
+    const inputFields = useSelector((state) => state.formFields.fields);
+    const dispatch = useDispatch();
 
     function setState(e) {
-        handleChange(e, state);
+        let newField = {
+            name: e.target.name,
+            value: e.target.value
+        }
+        dispatch(setFieldValue(newField))
     }
 
     const id = `${label}ID`;
+
+
 
     return (
         <div>
@@ -17,6 +27,7 @@ function Input(props) {
                 type={type}
                 id={id}
                 name={name}
+                value={inputFields.value}
                 onChange={(e) => setState(e)}
                 placeholder={placeholder}
             />
@@ -30,4 +41,4 @@ function Input(props) {
     )
 }
 
-export default Input
+export default memo(Input);

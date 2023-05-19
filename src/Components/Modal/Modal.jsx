@@ -1,11 +1,11 @@
-import { useEffect, useRef } from "react";
-import { keepTabIn } from "./controler.js";
+import { useEffect, useRef, memo } from "react";
+import { keepTabIn } from "./controller.js";
 import "./modal.css";
 
 function Modal(props) {
     // Props
     const { show, close, title, validateAndSubmit, children } = props;
-    console.log('I rendered')
+
     // References to the DOM
     const modalHeader = useRef(null);
     const submitBtn = useRef(null);
@@ -21,7 +21,7 @@ function Modal(props) {
                 close();
             }
         });
-    });
+    }, [show]);
 
     return (
         <div className={show ? "modal modal--visible" : "modal"} role="dialog" aria-labelledby="modalTitle" tabIndex={-1}>
@@ -48,5 +48,5 @@ function ModalBody({ children }) {
     )
 }
 
-export default Modal
+export default memo(Modal)
 export { ModalBody }

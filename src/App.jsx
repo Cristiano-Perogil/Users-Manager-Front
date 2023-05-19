@@ -1,4 +1,5 @@
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import Modal, { ModalBody } from './Components/Modal';
 import ModalText from './Components/ModalText';
 import Input from './Components/Input';
@@ -42,7 +43,7 @@ function App() {
     const [modalTextKind, setModalTextKind] = useState('');
 
     // The form fields
-    const [inputFields, setInputFields] = useState(formFields('fields'));
+    const inputFields = useSelector((state) => state.formFields.fields);
     const [emptyInputFields, setEmptInputFields] = useState(formFields('empty-fields'))
 
     useEffect(() => {
@@ -104,25 +105,21 @@ function App() {
                         currentUser={currentUser}
                     />
                     <Input
-
+                        key={23}
                         label='Name'
                         type='text'
                         name='name'
-                        value={inputFields.name}
                         placeholder="Full Name"
                         isInvalid={emptyInputFields.name}
-                        state={setInputFields}
                     />
                     <Input
+                        key={22}
                         label='Age'
                         type='number'
                         name='age'
-                        value={inputFields.age}
                         placeholder="How old is this one?"
                         isInvalid={emptyInputFields.age}
-                        state={setInputFields}
                     />
-
                 </ModalBody>
             </Modal>
         </div >

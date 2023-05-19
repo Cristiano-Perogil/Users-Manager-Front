@@ -16,9 +16,12 @@ export function validateFields(baseObj, errorObjState, action) {
 
 
 // Sets the object state of a range of input fields according to their name and value
-
-export function handleChange(e, state) {
+export function handleChange(e, state = false, obj) {
     let name = e.target.name;
     let value = e.target.value;
+    if (!state) {
+        let newObje = { ...obj, [name]: value };
+        return newObje;
+    }
     state(prevState => ({ ...prevState, [name]: value }));
 }
