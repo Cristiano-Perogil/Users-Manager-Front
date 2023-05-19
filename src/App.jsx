@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import RequestReporter from './Components/RequestReporter/RequestReporter';
 import Modal, { ModalBody } from './Components/Modal';
 import ModalText from './Components/ModalText';
 import Input from './Components/Input';
@@ -45,6 +46,7 @@ function App() {
     // The form fields
     const inputFields = useSelector((state) => state.formFields.fields);
     const [emptyInputFields, setEmptInputFields] = useState(formFields('empty-fields'))
+    const requestStatus = useSelector((state) => state.requestReporter.status);
 
     useEffect(() => {
         getUsers(false, '', '', setUsers);
@@ -52,6 +54,7 @@ function App() {
     console.log(inputFields);
     return (
         <div className='container'>
+            {requestStatus.isVisible && <RequestReporter />}
             <header aria-label="Heading">
                 <div className="field-aria">
                     <select name='method' value={filters.method} aria-label="select a filter" onChange={(e) => { handleFiltersSelection(); handleChange(e, setFilters); setEmptyFilter(prevState => ({ ...prevState, method: false })); }} ref={filterSelector}>
@@ -89,7 +92,7 @@ function App() {
                     </button>
                 </div>
                 <button
-                    onClick={() => { setOpenModal(true); setModalTextKind('edition'); }}
+                    onClick={() => { setOpenModal(true); setModalTextKind('addition'); }}
                 >
                     Add User
                 </button>
@@ -104,22 +107,26 @@ function App() {
                         kind={modalTextKind}
                         currentUser={currentUser}
                     />
-                    <Input
-                        key={23}
-                        label='Name'
-                        type='text'
-                        name='name'
-                        placeholder="Full Name"
-                        isInvalid={emptyInputFields.name}
-                    />
-                    <Input
-                        key={22}
-                        label='Age'
-                        type='number'
-                        name='age'
-                        placeholder="How old is this one?"
-                        isInvalid={emptyInputFields.age}
-                    />
+                    {(modalTextKind == 'addition' || modalTextKind == 'edition') &&
+                        <form>
+                            <Input
+                                key={23}
+                                label='Name'
+                                type='text'
+                                name='name'
+                                placeholder="Full Name"
+                                isInvalid={emptyInputFields.name}
+                            />
+                            <Input
+                                key={22}
+                                label='Age'
+                                type='number'
+                                name='age'
+                                placeholder="How old is this one?"
+                                isInvalid={emptyInputFields.age}
+                            />
+                        </form>
+                    }
                 </ModalBody>
             </Modal>
         </div >

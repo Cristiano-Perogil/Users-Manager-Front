@@ -2,14 +2,14 @@ function ModalText(props) {
     const { kind, currentUser } = props;
 
     switch (kind) {
-        case 'edition':
+        case 'addition':
             return (
                 <p>
                     Fill the filds below to add a new user to the database.<br />
                     All of them are <strong>mandatory!</strong>
                 </p>
             )
-        case 'addition':
+        case 'edition':
             return (
                 <p>
                     Fill the fields below to edit {currentUser}&rsquo;s data.<br />

@@ -1,4 +1,3 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
 * {
@@ -40,7 +39,8 @@ header {
 
 /* These buttons below refer to the search trigger as well as the clear inputs action  */
 .filterActions {
-    width: 1.4em;
+  border: 0;;  
+  width: 1.4em;
     height: 1.4em;
     background-color: black;
     font-size: 20px;
@@ -104,7 +104,6 @@ i {
   margin-right: 0.3em;
 }
 
-
 /* The warning message  */
 .warn-aria {
   position: absolute;
@@ -112,7 +111,6 @@ i {
   animation-name: animatecenter;
   animation-duration: 0.5s;
 }
-
 
 .warn-aria-form {
   margin: 0.3em;
