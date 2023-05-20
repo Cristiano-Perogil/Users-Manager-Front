@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import RequestReporter from './Components/RequestReporter/RequestReporter';
 import Modal, { ModalBody } from './Components/Modal';
 import ModalText from './Components/ModalText';
@@ -7,9 +7,12 @@ import Input from './Components/Input';
 import getUsers from './Requests/getUsers';
 import { validateFields, handleChange } from '../Helpers';
 import { formFields } from './Models';
+import { setRequestStatus } from './Store/actions';
 import './App.css'
 
 function App() {
+    // Initializing the dispatch hook
+    const dispatch = useDispatch();
     // References to the DOM
     const filterSelector = useRef(null);
 
@@ -49,9 +52,9 @@ function App() {
     const requestStatus = useSelector((state) => state.requestReporter.status);
 
     useEffect(() => {
-        getUsers(false, '', '', setUsers);
+        getUsers(false, '', '', setUsers, dispatch);
     }, []);
-    console.log(inputFields);
+
     return (
         <div className='container'>
             {requestStatus.isVisible && <RequestReporter />}
@@ -87,7 +90,7 @@ function App() {
                     {clearFilters && <button className="filterActions" aria-label="Clear Filters" title="Clear Filters" onClick={handleClearFilters}>
                         <i className="fas fa-eraser"></i>
                     </button>}
-                    <button className="filterActions" aria-label="Search User" title="Search User" onClick={() => validateFields(filters, setEmptyFilter, () => { setClearFilters(true); getUsers(true, 'city', 'cascavel', setUsers); })}>
+                    <button className="filterActions" aria-label="Search User" title="Search User" onClick={() => validateFields(filters, setEmptyFilter, () => { setClearFilters(true); getUsers(true, 'city', 'cascavel', setUsers, dispatch); dispatch(setRequestStatus('SET_VISIBILITY', true)); })}>
                         <i className="fa fa-search"></i>
                     </button>
                 </div>

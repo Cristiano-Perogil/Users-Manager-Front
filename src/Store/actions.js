@@ -3,18 +3,12 @@ export const setFieldValue = (newValue) => ({
     newValue,
 });
 
-export const setRequestStatus = (status) => {
-    switch (status) {
-        case 'SET_VISIBILITY':
-            return { type: 'SET_VISIBILITY', status, }
-        case 'LOADED':
-            return { type: 'LOADED', status, }
-        default:
-            break;
-    }
-};
+export const setRequestStatus = (status) => ({
+    type: 'SET_VISIBILITY',
+    status,
+});
 
-export const setErrorMessage = (message) => ({
+export const setErrorMessage = (errorMessage) => ({
     type: 'HAS_ERROR',
-    message,
+    errorMessage,
 });

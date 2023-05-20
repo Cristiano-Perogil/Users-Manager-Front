@@ -1,31 +1,25 @@
-import axios from "axios";
+import axios from 'axios';
+import { setRequestStatus, setErrorMessage } from '../Store/actions';
 
 // Gets data from the  back-end
-function getUsers(hasParams = false, filter = '', keyWord = '', state) {
+function getUsers(hasParams = false, filter = '', keyWord = '', state, dispatch) {
+
     let url;
     if (hasParams) {
         url = `http://localhost:3000/getusers/filterusers/?filterBy=${filter}&keyWord=${keyWord}`
     } else { url = `http://localhost:3000/getusers/` }
 
-    state((prevState) => ({ ...prevState, isFetching: true }))
+    dispatch(setRequestStatus(true));
     axios.get(url).then((data) => {
-        state((prevState) => ({ ...prevState, success: data.data, isFetching: false }))
+        state((prevState) => [...prevState, data.data]);
+        dispatch(setRequestStatus(false));
     }).catch((error) => {
-        state((prevState) => ({ ...prevState, isFetching: false }))
         if (error.response) {
             if (error.response.status === 404) {
-                state((prevState) => ({
-                    ...prevState,
-                    error: true,
-                    message: "User not found, Choose a different type of filter and / or key word."
-                }));
+                dispatch(setErrorMessage("No users were found by applying the filters you've chosen. Try different ones, cleaning up them or refreshing the page!"));
             }
         } else {
-            state((prevState) => ({
-                ...prevState,
-                error: true,
-                message: "It was not possible to connect to the server. It may be caused by network issues or server-side problems.<br><br>Try reloading the page!"
-            }));
+            dispatch(setErrorMessage("It was not possible to connect to the server. Check out your network connection and give it another try. If the problem persistes contact us."));
         }
     })
 }

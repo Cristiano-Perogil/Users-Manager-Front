@@ -1,6 +1,6 @@
-import { useEffect, useRef, memo } from "react";
-import { keepTabIn } from "./controller.js";
-import "./modal.css";
+import { useEffect, useRef, memo } from 'react';
+import { keepTabIn } from '../../../Helpers';
+import './modal.css';
 
 function Modal(props) {
     // Props

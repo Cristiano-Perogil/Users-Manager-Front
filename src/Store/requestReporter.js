@@ -1,8 +1,9 @@
 const initialState = {
     status: {
         isVisible: false,
-        isLoading: true,
-        error: false,
+    },
+    error: {
+        on: false,
         errorMessage: '',
     }
 };
@@ -10,11 +11,16 @@ const initialState = {
 function setRequestStatus(state = initialState, action) {
     switch (action.type) {
         case 'SET_VISIBILITY':
-            return { ...state, status: { isVisible: true, ...state.status } };
-        case 'LOADED':
-            return { ...state, status: { isLoading: false, ...state.status } };
+            return { ...state, status: { isVisible: action.status } };
         case 'HAS_ERROR':
-            return { ...state, status: { isLoading: false, error: true, message: action.message } };
+            return {
+                ...state,
+                error: {
+                    on: true,
+                    errorMessage: action.errorMessage
+
+                }
+            };
         default:
             return state;
     }

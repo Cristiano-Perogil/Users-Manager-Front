@@ -33,7 +33,6 @@
 
 .modal-header {
     display: flex;
-
     margin-bottom: 0.3em;
 }
 
@@ -64,6 +63,7 @@
 
 .modal-body {
     padding: 1em;
+    overflow-y: scroll;
 }
 
 .modal-footer {
@@ -74,7 +74,7 @@
 .cancelBtn {
     width: 50%;
     height: 100%;
-    margin: 0;
+    margin: 0.3 0 0 0;
     background-color: #5b5b5b;
     border-radius: 2%;
 }
@@ -82,7 +82,7 @@
 .submitBtn {
     width: 50%;
     height: 100%;
-    margin: 0;
+    margin: 0.3 0 0 0;
     background-color: cornflowerblue;
     border-radius: 2%;
 }
