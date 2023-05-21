@@ -2,8 +2,7 @@ import axios from 'axios';
 import { setRequestStatus, setErrorMessage } from '../Store/actions';
 
 // Gets data from the  back-end
-function getUsers(hasParams = false, filter = '', keyWord = '', state, dispatch) {
-
+function getUsers(hasParams = false, filter = '', keyWord = '', setUsers, dispatch) {
   let url;
   if (hasParams) {
     url = `http://localhost:3000/getusers/filterusers/?filterBy=${filter}&keyWord=${keyWord}`
@@ -11,7 +10,7 @@ function getUsers(hasParams = false, filter = '', keyWord = '', state, dispatch)
 
   dispatch(setRequestStatus(true));
   axios.get(url).then((data) => {
-    state((prevState) => [...prevState, data.data]);
+    setUsers(data.data);
     dispatch(setRequestStatus(false));
   }).catch((error) => {
     if (error.response) {

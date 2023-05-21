@@ -173,10 +173,3 @@ i {
     top: 0;
   }
 }
-
-/* Breaking lines */
-.break {
-  flex-basis: 100%;
-  height: 0;
-}
-

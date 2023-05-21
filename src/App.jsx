@@ -4,6 +4,7 @@ import RequestReporter from './Components/RequestReporter/RequestReporter';
 import Modal, { ModalBody } from './Components/Modal';
 import ModalText from './Components/ModalText';
 import Input from './Components/Input';
+import UsersTable from './Components/UsersTable';
 import getUsers from './Requests/getUsers';
 import { validateFields, handleChange } from '../Helpers';
 import { formFields } from './Models';
@@ -21,7 +22,7 @@ function App() {
   const [openModal, setOpenModal] = useState(false);
 
   // Stores the users got from the back-end
-  const [users, setUsers] = useState();
+  const [users, setUsers] = useState([]);
 
   // Refer to the header section, including the filter handlers
   const [filters, setFilters] = useState(formFields('filter-fields'));
@@ -87,22 +88,37 @@ function App() {
             <i className='fas fa-exclamation-circle'></i>
             <span>You must fill this field with any information</span>
           </div>}
-          {clearFilters && <button className="filterActions" aria-label="Clear Filters" title="Clear Filters" onClick={handleClearFilters}>
+          {clearFilters && <button className="filterActions"
+            aria-label="Clear Filters"
+            title="Clear Filters"
+            onClick={() => { handleClearFilters(); getUsers(false, '', '', setUsers, dispatch) }}
+          >
             <i className="fas fa-eraser"></i>
           </button>}
-          <button className="filterActions" aria-label="Search User" title="Search User" onClick={() => validateFields(filters, setEmptyFilter, () => { setClearFilters(true); getUsers(true, 'city', 'cascavel', setUsers, dispatch); dispatch(setRequestStatus('SET_VISIBILITY', true)); })}>
+          <button
+            className="filterActions"
+            aria-label="Search User"
+            title="Search User"
+            onClick={() => validateFields(filters, setEmptyFilter, () => { setClearFilters(true); getUsers(true, filters.method, filters.keyWord, setUsers, dispatch); })}
+          >
             <i className="fa fa-search"></i>
           </button>
         </div>
         <button
           onClick={() => { setOpenModal(true); setModalTextKind('addition'); }}
         >
-                    Add User
+          Add User
         </button>
       </header >
+      <UsersTable
+        setOpenModal={setOpenModal}
+        setModalKind={setModalTextKind}
+        setCurrentUser={setCurrentUser}
+        users={users}
+      />
       <Modal
         show={openModal}
-        title="Edit User"
+        title={modalTextKind}
         close={() => setOpenModal(false)}
       >
         <ModalBody>
@@ -111,24 +127,24 @@ function App() {
             currentUser={currentUser}
           />
           {(modalTextKind == 'addition' || modalTextKind == 'edition') &&
-                        <form>
-                          <Input
-                            key={23}
-                            label='Name'
-                            type='text'
-                            name='name'
-                            placeholder="Full Name"
-                            isInvalid={emptyInputFields.name}
-                          />
-                          <Input
-                            key={22}
-                            label='Age'
-                            type='number'
-                            name='age'
-                            placeholder="How old is this one?"
-                            isInvalid={emptyInputFields.age}
-                          />
-                        </form>
+            <form>
+              <Input
+                key={23}
+                label='Name'
+                type='text'
+                name='name'
+                placeholder="Full Name"
+                isInvalid={emptyInputFields.name}
+              />
+              <Input
+                key={22}
+                label='Age'
+                type='number'
+                name='age'
+                placeholder="How old is this one?"
+                isInvalid={emptyInputFields.age}
+              />
+            </form>
           }
         </ModalBody>
       </Modal>

@@ -1,4 +1,4 @@
-import { useEffect, useRef, memo } from 'react';
+import { useEffect, useRef } from 'react';
 import { keepTabIn } from '../../../Helpers';
 import './modal.css';
 
@@ -9,6 +9,20 @@ function Modal(props) {
   // References to the DOM
   const modalHeader = useRef(null);
   const submitBtn = useRef(null);
+
+
+  const shiftTitle = () => {
+    switch (title) {
+      case 'addition':
+        return 'Add User';
+      case 'edition':
+        return 'Edit User';
+      case 'deletion':
+        return 'Delete User';
+      default:
+        return '';
+    }
+  }
 
   useEffect(() => {
     let openModalElement = document.activeElement;
@@ -27,7 +41,7 @@ function Modal(props) {
     <div className={show ? "modal modal--visible" : "modal"} role="dialog" aria-labelledby="modalTitle" tabIndex={-1}>
       <div className="modal-content">
         <div className="modal-header">
-          <h2 id="modalTitle" tabIndex={0} ref={modalHeader}>{title}</h2>
+          <h2 id="modalTitle" tabIndex={0} ref={modalHeader}>{`${shiftTitle()}`}</h2>
           <button id="closeModal" onClick={() => close()} title="Close" aria-label="Close">&times;</button>
         </div>
         {children}
@@ -48,5 +62,5 @@ function ModalBody({ children }) {
   )
 }
 
-export default memo(Modal)
+export default Modal
 export { ModalBody }
