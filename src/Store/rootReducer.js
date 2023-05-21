@@ -3,6 +3,6 @@ import formFields from "./formFields";
 import requestReporter from './requestReporter';
 
 export default combineReducers({
-    formFields,
-    requestReporter
+  formFields,
+  requestReporter
 });
