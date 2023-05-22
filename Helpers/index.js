@@ -49,3 +49,13 @@ export function keepTabIn(firstTabStop, lastTabStop) {
     }
   });
 }
+
+// Shifting the type of validation according to what is requested
+export function validateBeforeSubmit(modalTextKind, inputFields, setEmptInputFields, setUsers, action1, action2, dispatch) {
+  switch (modalTextKind) {
+    case 'addition':
+      validateFields(inputFields, setEmptInputFields, () => action1(inputFields, () => action2(false, '', '', setUsers, dispatch), dispatch));
+    default:
+      return false;
+  }
+}

@@ -20,8 +20,14 @@ body {
   display: flex;
   flex-direction: column;
   margin: 4em;
+  padding: 0.6em;
   width: 60em;
   border: 1px solid white;
+  transition: height 4s;
+}
+
+#empty-request-msg {
+  text-align: center;
 }
 
 /* The header section */
@@ -98,6 +104,10 @@ button {
 button:hover,
 button:focus {
   filter: brightness(0.6);
+}
+
+button:disabled {
+  filter: brightness(0.5);
 }
 
 i {

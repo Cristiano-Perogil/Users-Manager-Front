@@ -17,7 +17,7 @@
     display: flex;
     flex-direction: column;
     width: 30em;
-    height: 25em;
+    height: 28em;
     border: 3px solid #f3f3f3;
     border-radius: 1%;
     box-sizing: border-box;
@@ -67,23 +67,24 @@
 }
 
 .modal-footer {
-    display: flex;
     margin-top: auto;
 }
 
 .cancelBtn {
     width: 50%;
-    height: 100%;
-    margin: 0.3 0 0 0;
+    margin: 1em 0 0 0;
+    height: 4em;
     background-color: #5b5b5b;
     border-radius: 2%;
+    border: 0;;
 }
 
 .submitBtn {
     width: 50%;
-    height: 100%;
-    margin: 0.3 0 0 0;
+    height: 4em;
+    margin: 1em 0 0 0;
     background-color: cornflowerblue;
     border-radius: 2%;
+    border: 0;;
 }
 

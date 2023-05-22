@@ -3,6 +3,18 @@ export const setFieldValue = (newValue) => ({
   newValue,
 });
 
+export const setCurrentUserFields = (action, fields = {}) => {
+  switch (action) {
+    case 'SET_CURRENT_USER':
+      return { type: 'SET_CURRENT_USER', fields }
+    case 'RESET':
+      return { type: 'RESET', }
+    default:
+      return false;
+  }
+
+}
+
 export const setRequestStatus = (status) => ({
   type: 'SET_VISIBILITY',
   status,

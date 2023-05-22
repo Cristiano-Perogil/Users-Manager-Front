@@ -1,11 +1,10 @@
 import { memo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setFieldValue } from '../../Store/actions';
 import './input.css';
 
 function Input(props) {
-  const { label, type, name, placeholder, isInvalid } = props;
-  const inputFields = useSelector((state) => state.formFields.fields);
+  const { label, type, name, value, placeholder, isInvalid, onErrorVerify } = props;
   const dispatch = useDispatch();
 
   function setState(e) {
@@ -13,12 +12,13 @@ function Input(props) {
       name: e.target.name,
       value: e.target.value
     }
-    dispatch(setFieldValue(newField))
+    dispatch(setFieldValue(newField));
+    if (newField.value == '') {
+      onErrorVerify((prevState) => ({ ...prevState, [newField.name]: true }));
+    }
   }
 
   const id = `${label}ID`;
-
-
 
   return (
     <div>
@@ -27,15 +27,16 @@ function Input(props) {
         type={type}
         id={id}
         name={name}
-        value={inputFields.value}
+        value={value}
         onChange={(e) => setState(e)}
+        onBlur={(e) => setState(e)}
         placeholder={placeholder}
       />
       {isInvalid &&
-                <div className="warn-aria-form" role="alert">
-                  <i className='fas fa-exclamation-circle'></i>
-                  <span>The {name} cannot be empty.</span>
-                </div>
+        <div className="warn-aria-form" role="alert">
+          <i className='fas fa-exclamation-circle'></i>
+          <span>The {name} cannot be empty.</span>
+        </div>
       }
     </div>
   )

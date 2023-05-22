@@ -1,1 +1,2 @@
-export { default } from './useFetch'
+export { addUser } from './addUser';
+export { getUsers } from './getUsers';

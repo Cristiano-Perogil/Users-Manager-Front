@@ -1,12 +1,16 @@
+import { useDispatch } from 'react-redux';
+import { setCurrentUserFields } from '../../Store/actions';
 import './users-table.css';
 
 function UsersTable(props) {
   const { setOpenModal, setModalKind, setCurrentUser, users } = props;
+  const dispatch = useDispatch();
 
   function shiftModalKind(currentUser, kind) {
     setOpenModal(true);
     setModalKind(kind);
-    setCurrentUser(currentUser);
+    setCurrentUser({ name: currentUser.name, ID: currentUser.ID });
+    if (kind == 'edition') dispatch(setCurrentUserFields('SET_CURRENT_USER', currentUser));
   }
 
   return (
@@ -35,14 +39,14 @@ function UsersTable(props) {
               <button
                 title='Edit User'
                 aria-label='Edit User'
-                onClick={() => shiftModalKind(user.name, 'edition')}
+                onClick={() => shiftModalKind(user, 'edition')}
               >
                 <i className='fas fa-edit'></i>
               </button>
               <button
                 title='Delete User'
                 aria-label='DeleteUser'
-                onClick={() => shiftModalKind(user.name, 'deletion')}
+                onClick={() => shiftModalKind(user, 'deletion')}
               >
                 <i className='fas fa-trash'></i>
               </button>
