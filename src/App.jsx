@@ -5,7 +5,7 @@ import Modal, { ModalBody } from './Components/Modal';
 import ModalText from './Components/ModalText';
 import Input from './Components/Input';
 import UsersTable from './Components/UsersTable';
-import { addUser, getUsers } from './Requests';
+import { addUser, deleteUser, editUser, getUsers } from './Requests';
 import { validateFields, handleChange } from '../Helpers';
 import { formFields } from './Models';
 import { setCurrentUserFields } from './Store/actions';
@@ -58,6 +58,13 @@ function App() {
     switch (modalTextKind) {
       case 'addition':
         validateFields(inputFields, setEmptInputFields, () => addUser(inputFields, () => getUsers(false, '', '', setUsers, dispatch), dispatch, setOpenModal));
+        break;
+      case 'edition':
+        validateFields(inputFields, setEmptInputFields, () => editUser(currentUser.ID, inputFields, () => getUsers(false, '', '', setUsers, dispatch), dispatch, setOpenModal));
+        break;
+      case 'deletion':
+        deleteUser(currentUser.ID, () => getUsers(false, '', '', setUsers, dispatch), dispatch, setOpenModal);
+        break;
       default:
         return false;
     }
