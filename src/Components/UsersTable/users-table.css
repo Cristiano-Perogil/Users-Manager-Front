@@ -13,24 +13,36 @@ th {
     padding: 0.5em;
 }
 
+.smallColumns {
+width: 5%;
+}
+
+.mediumColumns {
+    width: 20%;
+}
+
+.largeColumns {
+    width: 25%;
+}
+
 .actionsColumn {
     display: flex;
     align-items: center;
     justify-content: space-around;
+
 }
 
 .actionsColumn button {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 0.6em;
     border: 0;
     background-color: black;
     color: cornflowerblue;
-    width: 1.9em;
-    height: 1.9em;
 }
 
-i {
+.actionsColumn i {
     font-size: large;
     color: cornflowerblue;
   }

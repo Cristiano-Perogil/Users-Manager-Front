@@ -29,12 +29,12 @@ function UsersTable(props) {
       <tbody>
         {users.map((user, idx) => (
           <tr key={`${idx}User`}>
-            <td key={`IDColumn${idx}`}>{user.ID}</td>
-            <td key={`nameColumn${idx}`}>{user.name}</td>
-            <td key={`ageColumn${idx}`}>{user.age}</td>
-            <td key={`cityColumn${idx}`}>{user.city}</td>
-            <td key={`roleColumn${idx}`}>{user.role}</td>
-            <td key={`departmentNumberColumn${idx}`}>{user.departmentNumber}</td>
+            <td key={`IDColumn${idx}`} className='smallColumns'>{user.ID}</td>
+            <td key={`nameColumn${idx}`} className='mediumColumns'>{user.name}</td>
+            <td key={`ageColumn${idx}`} className='smallColumns'>{user.age}</td>
+            <td key={`cityColumn${idx}`} className='mediumColumns'>{user.city}</td>
+            <td key={`roleColumn${idx}`} className='largeColumns'>{user.role}</td>
+            <td key={`departmentNumberColumn${idx}`} className='mediumnColumns'>{user.departmentNumber}</td>
             <td key={`actionsColumn${idx}`} className='actionsColumn'>
               <button
                 title='Edit User'

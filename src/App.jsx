@@ -158,6 +158,8 @@ function App() {
                 type='text'
                 name='name'
                 value={inputFields.name}
+                min={5}
+                max={50}
                 placeholder="What is the full name of the one to be added to the database?"
                 isInvalid={emptyInputFields.name}
                 onErrorVerify={setEmptInputFields}
@@ -178,6 +180,8 @@ function App() {
                 type='text'
                 name='city'
                 value={inputFields.city}
+                min={4}
+                max={50}
                 placeholder="Where do they live? (city)"
                 isInvalid={emptyInputFields.city}
                 onErrorVerify={setEmptInputFields}
@@ -188,6 +192,8 @@ function App() {
                 type='text'
                 name='role'
                 value={inputFields.role}
+                min={5}
+                max={50}
                 placeholder='What do they do?'
                 isInvalid={emptyInputFields.role}
                 onErrorVerify={setEmptInputFields}

@@ -4,7 +4,7 @@ import { setFieldValue } from '../../Store/actions';
 import './input.css';
 
 function Input(props) {
-  const { label, type, name, value, placeholder, isInvalid, onErrorVerify } = props;
+  const { label, type, name, value, min, max, placeholder, isInvalid, onErrorVerify } = props;
   const dispatch = useDispatch();
 
   function setState(e) {
@@ -28,6 +28,8 @@ function Input(props) {
         id={id}
         name={name}
         value={value}
+        minLength={min}
+        maxLength={max}
         onChange={(e) => setState(e)}
         onBlur={(e) => setState(e)}
         placeholder={placeholder}
