@@ -48,7 +48,7 @@ function UsersTable(props) {
                 aria-label='DeleteUser'
                 onClick={() => shiftModalKind(user, 'deletion')}
               >
-                <i className='fas fa-trash'></i>
+                <i className='fas fa-trash' style={{ color: 'red' }}></i>
               </button>
             </td>
           </tr >
