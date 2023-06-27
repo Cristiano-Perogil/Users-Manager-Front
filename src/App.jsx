@@ -51,19 +51,37 @@ function App() {
   // The form fields
   const inputFields = useSelector((state) => state.formFields.fields);
   const [emptyInputFields, setEmptInputFields] = useState(formFields('empty-fields'))
-  const requestStatus = useSelector((state) => state.requestReporter.status);
+  const requestStatus = useSelector((state) => state.requestReporter);
+
+  // Getting Users as their is no filter applied
+  function getUsersWithNoFilters() {
+    getUsers(false, '', '', setUsers, dispatch);
+  }
 
   // Shifting the type of validation according to what is requested
   function validateBeforeSubmit() {
     switch (modalTextKind) {
       case 'addition':
-        validateFields(inputFields, setEmptInputFields, () => addUser(inputFields, () => getUsers(false, '', '', setUsers, dispatch), dispatch, setOpenModal));
+        validateFields(
+          inputFields,
+          setEmptInputFields,
+          () => addUser(inputFields, getUsersWithNoFilters, dispatch, setOpenModal)
+        );
         break;
       case 'edition':
-        validateFields(inputFields, setEmptInputFields, () => editUser(currentUser.ID, inputFields, () => getUsers(false, '', '', setUsers, dispatch), dispatch, setOpenModal));
+        validateFields(
+          inputFields,
+          setEmptInputFields,
+          () => editUser(currentUser.ID, inputFields, getUsersWithNoFilters, dispatch, setOpenModal)
+        );
         break;
       case 'deletion':
-        deleteUser(currentUser.ID, () => getUsers(false, '', '', setUsers, dispatch), dispatch, setOpenModal);
+        deleteUser(
+          currentUser.ID,
+          getUsersWithNoFilters,
+          dispatch,
+          setOpenModal
+        );
         break;
       default:
         return false;
@@ -71,15 +89,22 @@ function App() {
   }
 
   useEffect(() => {
-    getUsers(false, '', '', setUsers, dispatch);
+    getUsersWithNoFilters();
   }, []);
 
   return (
     <div className='container'>
-      {requestStatus.isVisible && <RequestReporter />}
+      {requestStatus.status.isVisible && <RequestReporter />}
       <header aria-label="Heading">
         <div className="field-aria">
-          <select name='method' value={filters.method} aria-label="select a filter" onChange={(e) => { handleFiltersSelection(); handleChange(e, setFilters); setEmptyFilter(prevState => ({ ...prevState, method: false })); }} ref={filterSelector}>
+          <select
+            name='method'
+            value={filters.method}
+            aria-label="select a filter"
+            onChange={(e) => { handleFiltersSelection(); handleChange(e, setFilters); setEmptyFilter(prevState => ({ ...prevState, method: false })); }}
+            ref={filterSelector}
+            disabled={requestStatus.error.on ? true : false}
+          >
             <option value=''>___</option>
             <option value='ID'>ID</option>
             <option value='name'>Name</option>
@@ -101,6 +126,7 @@ function App() {
             aria-label="search user"
             value={filters.keyWord}
             onChange={(e) => { handleFiltersSelection(); handleChange(e, setFilters); setEmptyFilter(prevState => ({ ...prevState, keyWord: false })); }}
+            disabled={requestStatus.error.on ? true : false}
           />
           {emptyFilter.keyWord && <div className="warn-aria" role="alert">
             <i className='fas fa-exclamation-circle'></i>
@@ -118,7 +144,7 @@ function App() {
             aria-label="Search User"
             title="Search User"
             onClick={() => validateFields(filters, setEmptyFilter, () => { setClearFilters(true); getUsers(true, filters.method, filters.keyWord, setUsers, dispatch); })}
-            disabled={users.length == 0 ? true : false}
+            disabled={requestStatus.error.on ? true : false}
           >
             <i className="fa fa-search"></i>
           </button>
@@ -215,4 +241,5 @@ function App() {
     </div >
   )
 }
+
 export default App

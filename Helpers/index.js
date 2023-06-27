@@ -2,15 +2,29 @@
 Validates a range of input fields based on a base obj and on another error based one.
 If the input field is invalid, the base obj will set its equivalent property to true within the error one.
 */
-export function validateFields(baseObj, setErrorObjState, action) {
+export function validateFields(baseObj, setErrorObjState, action, minLength = 0, maxLength = 0, setErrorMessage = null, e = {}) {
   let isInvalid = false;
   for (let key in baseObj) {
     if (baseObj[key] == '') {
       setErrorObjState(prevState => ({ ...prevState, [key]: true }));
       isInvalid = true;
+    } else if (minLength != 0 && maxLength != 0) {
+      checkLength(baseObj[key], minLength, maxLength, setErrorMessage);
+      isInvalid = true;
     }
   }
   if (!isInvalid) action();
+}
+
+// Validates a field according to its specified length
+export function checkLength(value, min, max, setErrorMessage) {
+  if (!value) {
+    setErrorMessage(`${name} cannot be empty!`)
+  } else if (value.length != min) {
+    setErrorMessage(`${name} must be at least ${min} characters long`)
+  } else if (value.length != max) {
+    setErrorMessage(`${name} must include only ${max} characters.`)
+  }
 }
 
 // Sets the object state of a range of input fields according to their name and value

@@ -10,19 +10,18 @@ const initialState = {
 
 function setRequestStatus(state = initialState, action) {
   switch (action.type) {
-  case 'SET_VISIBILITY':
-    return { ...state, status: { isVisible: action.status } };
-  case 'HAS_ERROR':
-    return {
-      ...state,
-      error: {
-        on: true,
-        errorMessage: action.errorMessage
-
-      }
-    };
-  default:
-    return state;
+    case 'SET_VISIBILITY':
+      return { ...state, status: { isVisible: action.status } };
+    case 'HAS_ERROR':
+      return {
+        ...state,
+        error: {
+          on: true,
+          errorMessage: action.errorMessage
+        }
+      };
+    default:
+      return state;
   }
 }
 

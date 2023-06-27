@@ -10,7 +10,6 @@ function Modal(props) {
   const modalHeader = useRef(null);
   const submitBtn = useRef(null);
 
-
   const shiftTitle = () => {
     switch (title) {
       case 'addition':
@@ -42,12 +41,31 @@ function Modal(props) {
       <div className="modal-content">
         <div className="modal-header">
           <h2 id="modalTitle" tabIndex={0} ref={modalHeader}>{`${shiftTitle()}`}</h2>
-          <button id="closeModal" onClick={() => close()} title="Close" aria-label="Close">&times;</button>
+          <button
+            id="closeModal"
+            onClick={() => close()}
+            title="Close"
+            aria-label="Close"
+          >
+            &times;
+          </button>
         </div>
         {children}
         <div className="modal-footer">
-          <button className="cancelBtn " onClick={() => close()}>Cancel</button>
-          <button className="submitBtn" onClick={() => validateAndSubmit()} ref={submitBtn}>Submit</button>
+          <button
+            className="cancelBtn "
+            onClick={() => close()}
+          >
+            Cancel
+          </button>
+          <button
+            className="submitBtn"
+            onClick={() => validateAndSubmit()}
+            ref={submitBtn}
+            style={shiftTitle() == 'Delete User' ? { backgroundColor: 'red' } : {}}
+          >
+            Submit
+          </button>
         </div>
       </div>
     </div >

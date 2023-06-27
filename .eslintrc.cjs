@@ -12,6 +12,6 @@ module.exports = {
   rules: {
     'react-refresh/only-export-components': 'warn',
     'react/prop-types': 'off',
-    'indent': ['error', 2]
+    'indent': ['error', 2, { "SwitchCase": 1 }]
   },
 }
