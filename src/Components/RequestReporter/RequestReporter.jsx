@@ -26,16 +26,21 @@ function RequestReporter() {
   return (
     <div className="loaderContainer" role="dialog">
       <div className="wrapper" tabIndex={0} ref={firstElement}>
-        {!requestStatus.error.on ?
-          (<><div className="loader"></div>
-            <p aria-live='polite' tabIndex={0} ref={lastElement}>Loading.<br />Please wait...</p></>) :
-          (<><i className="fas fa-exclamation-triangle"></i>
+        {!requestStatus.error.on ? (
+          <>
+            <div className="loader"></div>
+            <p aria-live='polite' tabIndex={0} ref={lastElement}>Loading.<br />Please wait...</p>
+          </>
+        ) : (
+          <>
+            <i className="fas fa-exclamation-triangle"></i>
             <p aria-live='polite' tabIndex={0} ref={lastElement}>{requestStatus.error.errorMessage}</p>
-            <p>You can dismis this message by pressing the esc key.</p></>)
+            <p>You can dismis this message by pressing the esc key.</p>
+          </>)
         }
       </div>
     </div>
-  )
+  );
 }
 
 export default RequestReporter;

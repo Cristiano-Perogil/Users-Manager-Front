@@ -1,21 +1,32 @@
 import { memo } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setFieldValue } from '../../Store/actions';
+import { validateFields } from '../../../Helpers';
 import './input.css';
 
 function Input(props) {
-  const { label, type, name, value, min, max, placeholder, isInvalid, onErrorVerify } = props;
+  const { label, type, name, value, min, max, placeholder, isInvalid } = props;
   const dispatch = useDispatch();
 
-  function setState(e) {
+  const errorMessage = useSelector((state) => state.formFields[name].errorMessage);
+
+  function manageInputStatus(e) {
     let newField = {
       name: e.target.name,
-      value: e.target.value
-    }
+      value: typeof e.target.value === 'number' ?
+        e.target.value.toString() : e.target.value
+    };
     dispatch(setFieldValue(newField));
-    if (newField.value == '') {
-      onErrorVerify((prevState) => ({ ...prevState, [newField.name]: true }));
-    }
+    validateOnblur(e);
+  }
+
+  function validateOnblur(e) {
+    let field = {
+      name: e.target.name,
+      value: typeof e.target.value === 'number' ?
+        e.target.value.toSetring() : e.target.value
+    };
+    validateFields(null, null, min, max, true, field, dispatch);
   }
 
   const id = `${label}ID`;
@@ -30,18 +41,18 @@ function Input(props) {
         value={value}
         minLength={min}
         maxLength={max}
-        onChange={(e) => setState(e)}
-        onBlur={(e) => setState(e)}
+        onChange={(e) => manageInputStatus(e)}
+        onBlur={(e) => validateOnblur(e)}
         placeholder={placeholder}
       />
       {isInvalid &&
         <div className="warn-aria-form" role="alert">
           <i className='fas fa-exclamation-circle'></i>
-          <span>The {name} cannot be empty.</span>
+          <span aria-live="polite">{errorMessage}</span>
         </div>
       }
     </div>
-  )
+  );
 }
 
 export default memo(Input);

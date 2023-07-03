@@ -1,15 +1,15 @@
 import { useRef, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import RequestReporter from './Components/RequestReporter/RequestReporter';
+import RequestReporter from './Components/RequestReporter';
 import Modal, { ModalBody } from './Components/Modal';
 import ModalText from './Components/ModalText';
 import Input from './Components/Input';
 import UsersTable from './Components/UsersTable';
 import { addUser, deleteUser, editUser, getUsers } from './Requests';
-import { validateFields, handleChange } from '../Helpers';
+import { validateFields, validateFilters, handelFielterChange } from '../Helpers';
 import { formFields } from './Models';
 import { setCurrentUserFields } from './Store/actions';
-import './App.css'
+import './App.css';
 
 function App() {
   // Initializing the dispatch hook
@@ -27,7 +27,6 @@ function App() {
 
   // Refer to the header section, including the filter handlers
   const [filters, setFilters] = useState(formFields('filter-fields'));
-  const [emptyFilter, setEmptyFilter] = useState(formFields('empty-filter-fields'));
   const [isTypeNumber, setIsTypeNum] = useState(false);
   const [clearFilters, setClearFilters] = useState(false);
 
@@ -39,9 +38,17 @@ function App() {
 
   function handleClearFilters() {
     setClearFilters(false);
-    setEmptyFilter(formFields('empty-filter-fields'));
-    setFilters(formFields('filter-fields'));
     filterSelector.current.focus();
+    setFilters(formFields('filter-fields'));
+  }
+
+  function applyFilters() {
+    validateFilters(
+      filters,
+      setFilters,
+      () => getUsers(true, filters.method.value, filters.keyWord.value, setUsers, dispatch),
+      setClearFilters
+    );
   }
 
   // The Modal section
@@ -49,8 +56,7 @@ function App() {
   const [modalTextKind, setModalTextKind] = useState('');
 
   // The form fields
-  const inputFields = useSelector((state) => state.formFields.fields);
-  const [emptyInputFields, setEmptInputFields] = useState(formFields('empty-fields'))
+  const inputFields = useSelector((state) => state.formFields);
   const requestStatus = useSelector((state) => state.requestReporter);
 
   // Getting Users as their is no filter applied
@@ -64,15 +70,15 @@ function App() {
       case 'addition':
         validateFields(
           inputFields,
-          setEmptInputFields,
-          () => addUser(inputFields, getUsersWithNoFilters, dispatch, setOpenModal)
+          () => addUser(inputFields, getUsersWithNoFilters, dispatch, setOpenModal),
+          null, null, false, null, dispatch
         );
         break;
       case 'edition':
         validateFields(
           inputFields,
-          setEmptInputFields,
-          () => editUser(currentUser.ID, inputFields, getUsersWithNoFilters, dispatch, setOpenModal)
+          () => editUser(currentUser.ID, inputFields, getUsersWithNoFilters, dispatch, setOpenModal),
+          null, null, false, null, dispatch
         );
         break;
       case 'deletion':
@@ -99,11 +105,11 @@ function App() {
         <div className="field-aria">
           <select
             name='method'
-            value={filters.method}
+            value={filters.method.value}
             aria-label="select a filter"
-            onChange={(e) => { handleFiltersSelection(); handleChange(e, setFilters); setEmptyFilter(prevState => ({ ...prevState, method: false })); }}
+            onChange={(e) => { handleFiltersSelection(); handelFielterChange(e, setFilters); }}
             ref={filterSelector}
-            disabled={requestStatus.error.on ? true : false}
+            disabled={users.length == 0 ? true : false}
           >
             <option value=''>___</option>
             <option value='ID'>ID</option>
@@ -112,7 +118,7 @@ function App() {
             <option value='role'>Role</option>
             <option value='departmentNumber'>Department Number</option>
           </select>
-          {emptyFilter.method && <div className="warn-aria" role="alert">
+          {filters.method.isEmpty && <div className="warn-aria" role="alert">
             <i className='fas fa-exclamation-circle'></i>
             <span>You must choose a filter type</span>
           </div>}
@@ -121,21 +127,22 @@ function App() {
           <input
             id="searchField"
             name='keyWord'
-            type={isTypeNumber ? "number" : "text"}
+            type={isTypeNumber ? 'number' : 'text'}
             placeholder="Search users according to the filters to the left"
             aria-label="search user"
-            value={filters.keyWord}
-            onChange={(e) => { handleFiltersSelection(); handleChange(e, setFilters); setEmptyFilter(prevState => ({ ...prevState, keyWord: false })); }}
-            disabled={requestStatus.error.on ? true : false}
+            value={filters.keyWord.value}
+            onChange={(e) => { handleFiltersSelection(); handelFielterChange(e, setFilters); }}
+            disabled={users.length == 0 ? true : false}
           />
-          {emptyFilter.keyWord && <div className="warn-aria" role="alert">
+          {filters.keyWord.isEmpty && <div className="warn-aria" role="alert">
             <i className='fas fa-exclamation-circle'></i>
             <span>You must fill this field with any information</span>
           </div>}
-          {clearFilters && <button className="filterActions"
+          {clearFilters && <button
+            className="filterActions"
             aria-label="Clear Filters"
             title="Clear Filters"
-            onClick={() => { handleClearFilters(); getUsers(false, '', '', setUsers, dispatch) }}
+            onClick={() => { handleClearFilters(); getUsersWithNoFilters(); }}
           >
             <i className="fas fa-eraser"></i>
           </button>}
@@ -143,8 +150,8 @@ function App() {
             className="filterActions"
             aria-label="Search User"
             title="Search User"
-            onClick={() => validateFields(filters, setEmptyFilter, () => { setClearFilters(true); getUsers(true, filters.method, filters.keyWord, setUsers, dispatch); })}
-            disabled={requestStatus.error.on ? true : false}
+            onClick={() => applyFilters()}
+            disabled={users.length == 0 ? true : false}
           >
             <i className="fa fa-search"></i>
           </button>
@@ -168,7 +175,7 @@ function App() {
       <Modal
         show={openModal}
         title={modalTextKind}
-        close={() => { setOpenModal(false); dispatch(setCurrentUserFields('RESET')); setEmptInputFields(formFields('empty-fields')); }}
+        close={() => { setOpenModal(false); dispatch(setCurrentUserFields('RESET')); }}
         validateAndSubmit={() => validateBeforeSubmit()}
       >
         <ModalBody>
@@ -183,63 +190,62 @@ function App() {
                 label='Name'
                 type='text'
                 name='name'
-                value={inputFields.name}
-                min={5}
-                max={50}
+                value={inputFields.name.value}
+                min={inputFields.name.minLength}
+                max={inputFields.name.maxLength}
                 placeholder="What is the full name of the one to be added to the database?"
-                isInvalid={emptyInputFields.name}
-                onErrorVerify={setEmptInputFields}
+                isInvalid={inputFields.name.isInvalid}
               />
               <Input
                 key={2}
                 label='Age'
                 type='number'
                 name='age'
-                value={inputFields.age}
+                value={inputFields.age.value}
+                min={inputFields.age.mimLength}
+                max={inputFields.age.maxLength}
                 placeholder="How old is this one?"
-                isInvalid={emptyInputFields.age}
-                onErrorVerify={setEmptInputFields}
+                isInvalid={inputFields.age.isInvalid}
               />
               <Input
                 key={3}
                 label='City'
                 type='text'
                 name='city'
-                value={inputFields.city}
-                min={4}
-                max={50}
+                value={inputFields.city.value}
+                min={inputFields.city.minLength}
+                max={inputFields.city.maxLength}
                 placeholder="Where do they live? (city)"
-                isInvalid={emptyInputFields.city}
-                onErrorVerify={setEmptInputFields}
+                isInvalid={inputFields.city.isInvalid}
               />
               <Input
                 key={5}
                 label='Role'
                 type='text'
                 name='role'
-                value={inputFields.role}
-                min={5}
-                max={50}
+                value={inputFields.role.value}
+                min={inputFields.role.minLength}
+                max={inputFields.role.maxLength}
                 placeholder='What do they do?'
-                isInvalid={emptyInputFields.role}
-                onErrorVerify={setEmptInputFields}
+                isInvalid={inputFields.role.isInvalid}
               />
               <Input
                 key={6}
                 label='Department Number'
                 type='number'
                 name='departmentNumber'
-                value={inputFields.departmentNumber}
+                value={inputFields.departmentNumber.value}
+                min={inputFields.departmentNumber.minLength}
+                max={inputFields.departmentNumber.maxLength}
                 placeholder='Which department do they belong to? (Just Numbers)'
-                isInvalid={emptyInputFields.departmentNumber}
-                onErrorVerify={setEmptInputFields}
+                isInvalid={inputFields.departmentNumber.isInvalid}
               />
             </form>
           }
         </ModalBody>
       </Modal>
     </div >
-  )
+  );
 }
 
-export default App
+export default App;

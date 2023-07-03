@@ -55,7 +55,7 @@ function UsersTable(props) {
         ))}
       </tbody >
     </table >
-  )
+  );
 }
 
 export default UsersTable;

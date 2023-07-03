@@ -6,14 +6,18 @@ export const setFieldValue = (newValue) => ({
 export const setCurrentUserFields = (action, fields = {}) => {
   switch (action) {
     case 'SET_CURRENT_USER':
-      return { type: 'SET_CURRENT_USER', fields }
+      return { type: 'SET_CURRENT_USER', fields };
     case 'RESET':
-      return { type: 'RESET', }
+      return { type: 'RESET', };
     default:
       return false;
   }
+};
 
-}
+export const setInvalidFieldMessage = (fields) => ({
+  type: 'SET_INVALID',
+  fields
+});
 
 export const setRequestStatus = (status) => ({
   type: 'SET_VISIBILITY',

@@ -1,21 +1,63 @@
 const initialState = {
-  fields: {
-    name: '',
-    age: 0,
-    city: '',
-    role: '',
-    departmentNumber: 0
+  name: {
+    value: '',
+    minLength: 3,
+    maxLength: 100,
+    isInvalid: false,
+    errorMessage: ''
+  },
+  age: {
+    value: 0,
+    minLength: 1,
+    maxLength: 3,
+    isInvalid: false,
+    errorMessage: ''
+  },
+  city: {
+    value: '',
+    minLength: 3,
+    maxLength: 100,
+    isInvalid: false,
+    errorMessage: ''
+  },
+  role: {
+    value: '',
+    minLength: 5,
+    maxLength: 50,
+    isInvalid: false,
+    errorMessage: ''
+  },
+  departmentNumber: {
+    value: 0,
+    minLength: 6,
+    maxLength: 6,
+    isInvalid: false,
+    errorMessage: ''
   }
 };
 
 function changeField(state = initialState, action) {
   switch (action.type) {
     case 'SET_NEW_VALUE':
-      if (action.newValue.name == 'age' || action.newValue.name == 'departmentNumber') {
-        return { ...state, fields: { ...state.fields, [action.newValue.name]: Number(action.newValue.value) } };
-      } else { return { ...state, fields: { ...state.fields, [action.newValue.name]: action.newValue.value } }; }
+      state[action.newValue.name]['value'] = action.newValue.value;
+      return { ...state };
     case 'SET_CURRENT_USER':
-      return { ...state, fields: action.fields, };
+      for (let key in action.fields) {
+        if (key.toString() === 'ID') {
+          continue;
+        }
+        state[key]['value'] = action.fields[key];
+      }
+      return { ...state };
+    case 'SET_INVALID':
+      for (let key in action.fields) {
+        state[key] = {
+          ...state[key],
+          isInvalid: action.fields[key].isInvalid,
+          errorMessage: action.fields[key].errorMessage
+        };
+      }
+      return { ...state };
     case 'RESET':
       return initialState;
     default:

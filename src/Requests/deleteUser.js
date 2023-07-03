@@ -13,12 +13,12 @@ export function deleteUser(userID, action, dispatch, setOpenModal) {
     setOpenModal(false);
     if (error.response) {
       if (error.response.status === 404) {
-        dispatch(setErrorMessage("Ops! It seems this user has been already been deleted. Check if another one through a different client has done it. Do not forget refreshing the page to reflect the new changes."));
+        dispatch(setErrorMessage('Ops! It seems this user has been already been deleted. Check if another one through a different client has done it. Do not forget refreshing the page to reflect the new changes.'));
       }
     } else {
-      dispatch(setErrorMessage("It was not possible to connect to the server. Check out your network connection and give it another try. If the problem persistes contact us."));
+      dispatch(setErrorMessage('It was not possible to connect to the server. Check out your network connection and give it another try. If the problem persistes contact us.'));
     }
-  })
+  });
 }
 
 

@@ -21,7 +21,7 @@ function Modal(props) {
       default:
         return '';
     }
-  }
+  };
 
   useEffect(() => {
     let openModalElement = document.activeElement;
@@ -37,7 +37,7 @@ function Modal(props) {
   }, [show]);
 
   return (
-    <div className={show ? "modal modal--visible" : "modal"} role="dialog" aria-labelledby="modalTitle" tabIndex={-1}>
+    <div className={show ? 'modal modal--visible' : 'modal'} role="dialog" aria-labelledby="modalTitle" tabIndex={-1}>
       <div className="modal-content">
         <div className="modal-header">
           <h2 id="modalTitle" tabIndex={0} ref={modalHeader}>{`${shiftTitle()}`}</h2>
@@ -69,7 +69,7 @@ function Modal(props) {
         </div>
       </div>
     </div >
-  )
+  );
 }
 
 function ModalBody({ children }) {
@@ -77,8 +77,8 @@ function ModalBody({ children }) {
     <div className="modal-body">
       {children}
     </div>
-  )
+  );
 }
 
-export default Modal
-export { ModalBody }
+export default Modal;
+export { ModalBody };
