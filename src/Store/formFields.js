@@ -39,25 +39,29 @@ const initialState = {
 function changeField(state = initialState, action) {
   switch (action.type) {
     case 'SET_NEW_VALUE':
-      state[action.newValue.name]['value'] = action.newValue.value;
-      return { ...state };
+      return { ...state, [action.newValue.name]: { ...state[action.newValue.name], value: action.newValue.value } };
     case 'SET_CURRENT_USER':
+      let currentUser = {};
       for (let key in action.fields) {
         if (key.toString() === 'ID') {
           continue;
         }
-        state[key]['value'] = action.fields[key];
+        currentUser[key] = {
+          ...state[key],
+          value: action.fields[key]
+        };
       }
-      return { ...state };
+      return { ...state, ...currentUser };
     case 'SET_INVALID':
+      let invalidFields = {};
       for (let key in action.fields) {
-        state[key] = {
+        invalidFields[key] = {
           ...state[key],
           isInvalid: action.fields[key].isInvalid,
           errorMessage: action.fields[key].errorMessage
         };
       }
-      return { ...state };
+      return { ...state, ...invalidFields };
     case 'RESET':
       return initialState;
     default:

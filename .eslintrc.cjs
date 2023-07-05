@@ -14,6 +14,7 @@ module.exports = {
     'react/prop-types': 'off',
     'indent': ['error', 2, { 'SwitchCase': 1 }],
     'semi': ['error', 'always'],
-    'quotes': ['error', 'single']
+    'quotes': ['error', 'single'],
+    'no-case-declarations': 'off'
   },
 };
