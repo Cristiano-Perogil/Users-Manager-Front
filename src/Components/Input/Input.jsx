@@ -1,4 +1,3 @@
-import { memo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFieldValue } from '../../Store/actions';
 import { validateFields } from '../../../Helpers';
@@ -55,4 +54,4 @@ function Input(props) {
   );
 }
 
-export default memo(Input);
+export default Input;

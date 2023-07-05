@@ -92,6 +92,13 @@ export function validateFilters(filter, setFilterState, action, setClearFiltersS
   }
 }
 
+// As all the data is stored within a upper case format in the database, converts it for displaying it better
+export function structureData(str = '') {
+  let splitWords = str.split(' ');
+  let newWords = [];
+  splitWords.forEach((words) => newWords.push([words[0].toUpperCase().concat(words.substring(1))].join('')));
+  return newWords.join(' ');
+}
 
 // As a dialog window is displayed, keeps the focus within it
 export function keepTabIn(firstTabStop, lastTabStop) {
