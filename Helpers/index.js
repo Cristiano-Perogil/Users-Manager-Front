@@ -39,18 +39,16 @@ export function checkField(name, value, min, max, dispatch) {
   if (!value) {
     field[name].errorMessage = `${name} cannot be empty!`;
     isInvalid = true;
-    field[name].isInvalid = isInvalid;
   } else if (value.length < min) {
     field[name].errorMessage = `${name} must be at least ${min} characters long`;
     isInvalid = true;
-    field[name].isInvalid = isInvalid;
   } else if (value.length > max) {
     field[name].errorMessage = `${name} must include only ${max} characters.`;
     isInvalid = true;
-    field[name].isInvalid = isInvalid;
   }
 
   if (isInvalid) {
+    field[name].isInvalid = isInvalid;
     dispatch(setInvalidFieldMessage(field));
     return false;
   } else {

@@ -32,7 +32,7 @@ function App() {
 
   // The actions related to the filters when there's one applied
   function handleFiltersSelection() {
-    filterSelector.current.value == 'ID' || filterSelector.current.value == 'departmentNumber' ?
+    filterSelector.current.value == 'ID' || filterSelector.current.value == 'department_number' ?
       setIsTypeNum(true) : setIsTypeNum(false);
   }
 
@@ -52,7 +52,7 @@ function App() {
   }
 
   // The Modal section
-  const [currentUser, setCurrentUser] = useState({ name: '', ID: 0 });
+  const [currentUser, setCurrentUser] = useState({ name: '', id: 0 });
   const [modalTextKind, setModalTextKind] = useState('');
 
   // The form fields
@@ -77,13 +77,13 @@ function App() {
       case 'edition':
         validateFields(
           inputFields,
-          () => editUser(currentUser.ID, inputFields, getUsersWithNoFilters, dispatch, setOpenModal),
+          () => editUser(currentUser.id, inputFields, getUsersWithNoFilters, dispatch, setOpenModal),
           null, null, false, null, dispatch
         );
         break;
       case 'deletion':
         deleteUser(
-          currentUser.ID,
+          currentUser.id,
           getUsersWithNoFilters,
           dispatch,
           setOpenModal
@@ -116,7 +116,7 @@ function App() {
             <option value='name'>Name</option>
             <option value='city'>City</option>
             <option value='role'>Role</option>
-            <option value='departmentNumber'>Department Number</option>
+            <option value='department_number'>Department Number</option>
           </select>
           {filters.method.isEmpty && <div className="warn-aria" role="alert">
             <i className='fas fa-exclamation-circle'></i>
@@ -158,7 +158,6 @@ function App() {
         </div>
         <button
           onClick={() => { setOpenModal(true); setModalTextKind('addition'); }}
-          disabled={users.length == 0 ? true : false}
         >
           Add User
         </button>
@@ -233,12 +232,12 @@ function App() {
                 key={6}
                 label='Department Number'
                 type='number'
-                name='departmentNumber'
-                value={inputFields.departmentNumber.value}
-                min={inputFields.departmentNumber.minLength}
-                max={inputFields.departmentNumber.maxLength}
+                name='department_number'
+                value={inputFields.department_number.value}
+                min={inputFields.department_number.minLength}
+                max={inputFields.department_number.maxLength}
                 placeholder='Which department do they belong to? (Just Numbers)'
-                isInvalid={inputFields.departmentNumber.isInvalid}
+                isInvalid={inputFields.department_number.isInvalid}
               />
             </form>
           }

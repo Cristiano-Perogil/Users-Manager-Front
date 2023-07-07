@@ -1,5 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { setCurrentUserFields } from '../../Store/actions';
+import { structureData } from '../../../Helpers';
 import './users-table.css';
 
 function UsersTable(props) {
@@ -9,7 +10,7 @@ function UsersTable(props) {
   function shiftModalKind(currentUser, kind) {
     setOpenModal(true);
     setModalKind(kind);
-    setCurrentUser({ name: currentUser.name, ID: currentUser.ID });
+    setCurrentUser({ name: currentUser.name, id: currentUser.id });
     if (kind == 'edition') dispatch(setCurrentUserFields('SET_CURRENT_USER', currentUser));
   }
 
@@ -29,12 +30,12 @@ function UsersTable(props) {
       <tbody>
         {users.map((user, idx) => (
           <tr key={`${idx}User`}>
-            <td key={`IDColumn${idx}`} className='smallColumns'>{user.ID}</td>
-            <td key={`nameColumn${idx}`} className='mediumColumns'>{user.name}</td>
+            <td key={`IDColumn${idx}`} className='smallColumns'>{user.id}</td>
+            <td key={`nameColumn${idx}`} className='mediumColumns'>{structureData(user.name)}</td>
             <td key={`ageColumn${idx}`} className='smallColumns'>{user.age}</td>
-            <td key={`cityColumn${idx}`} className='mediumColumns'>{user.city}</td>
-            <td key={`roleColumn${idx}`} className='largeColumns'>{user.role}</td>
-            <td key={`departmentNumberColumn${idx}`} className='mediumnColumns'>{user.departmentNumber}</td>
+            <td key={`cityColumn${idx}`} className='mediumColumns'>{structureData(user.city)}</td>
+            <td key={`roleColumn${idx}`} className='largeColumns'>{structureData(user.role)}</td>
+            <td key={`department_numberColumn${idx}`} className='mediumnColumns'>{user.department_number}</td>
             <td key={`actionsColumn${idx}`} className='actionsColumn'>
               <button
                 title='Edit User'

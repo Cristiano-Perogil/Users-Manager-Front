@@ -27,7 +27,7 @@ const initialState = {
     isInvalid: false,
     errorMessage: ''
   },
-  departmentNumber: {
+  department_number: {
     value: 0,
     minLength: 6,
     maxLength: 6,

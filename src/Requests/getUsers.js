@@ -4,9 +4,14 @@ import { setRequestStatus, setErrorMessage } from '../Store/actions';
 // Gets data from the  back-end
 export function getUsers(hasParams = false, filter = '', keyWord = '', setUsers, dispatch) {
   let url;
+  let errorMessage;
   if (hasParams) {
-    url = `http://localhost:3000/getusers/filterusers/?filterBy=${filter}&keyWord=${keyWord}`;
-  } else { url = 'http://localhost:3000/getusers/'; }
+    errorMessage = 'No users were found by applying the filters you"ve chosen. Try different ones, cleaning up them or refreshing the page!';
+    url = `http://localhost:3000/getusers/?method=${filter}&keyWord=${keyWord}`;
+  } else {
+    errorMessage = 'There is no user yet stored within the database. You can add the firs one by clicking on the "Add User" button and filling out their information';
+    url = 'http://localhost:3000/getusers/';
+  }
 
   dispatch(setRequestStatus(true));
   axios.get(url).then((data) => {
@@ -15,7 +20,7 @@ export function getUsers(hasParams = false, filter = '', keyWord = '', setUsers,
   }).catch((error) => {
     if (error.response) {
       if (error.response.status === 404) {
-        dispatch(setErrorMessage('No users were found by applying the filters you"ve chosen. Try different ones, cleaning up them or refreshing the page!'));
+        dispatch(setErrorMessage(errorMessage));
       }
     } else {
       console.log('error!');
